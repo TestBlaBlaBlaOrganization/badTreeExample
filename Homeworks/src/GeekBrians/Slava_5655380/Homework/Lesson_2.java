@@ -1,8 +1,8 @@
-package GeekBrians.Lesson_2.Homework;
+package GeekBrians.Slava_5655380.Homework;
 
-import java.util.Random;
+import static GeekBrians.Slava_5655380.Util.*;
 
-public class Main {
+public class Lesson_2 {
 
     public static void main(String[] args) {
         //FirstTask.main(args);
@@ -13,18 +13,6 @@ public class Main {
         //SixthTask.main(args);
         SeventhTask.main(args);
     }
-    static int[] strArrToIntArr(String[] arr){
-        // pass
-        return new int[]{1, 2, 3, 4, 5};
-    }
-    static int[] generateRandomArr() {
-        // pass
-        return new int[]{1, 2, 3, 4, 5};
-    }
-    static int[] printArr(int[] arr){
-        // pass
-        return new int[]{1, 2, 3, 4, 5};
-    }
 }
 
 // 1. Задать целочисленный массив, состоящий из элементов 0 и 1. Например: [ 1, 1, 0, 0, 1, 0, 1, 1, 0, 0 ]. С помощью цикла и условия заменить 0 на 1, 1 на 0;
@@ -33,8 +21,7 @@ class FirstTask {
         int[] intArr = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         for (int i = 0; i < intArr.length; i++)
             intArr[i] = (intArr[i] == 0) ? 1 : 0;
-        for (var i : intArr)
-            System.out.print(i + " ");
+        printArr(intArr);
     }
 }
 
@@ -44,8 +31,7 @@ class SecondTask {
         int[] intArr = new int[8];
         for (int i = 0; i < intArr.length; i++)
             intArr[i] = i * 3;
-        for (var i : intArr)
-            System.out.print(i + " ");
+        printArr(intArr);
     }
 }
 
@@ -56,8 +42,7 @@ class ThirdTask {
         for (int i = 0; i < arr.length; i++)
             if (arr[i] < 6)
                 arr[i] = arr[i] * 2;
-        for (var i : arr)
-            System.out.print(i + " ");
+        printArr(arr);
     }
 }
 
@@ -71,8 +56,7 @@ class FourthTask {
         for (int i = 0, j = squareMatrix[i].length - 1; i < squareMatrix.length && j >= 0; i++, j--)
             squareMatrix[i][j] = 1;
         for (int i = 0; i < squareMatrix.length; i++) {
-            for (int j = 0; j < squareMatrix[i].length; j++)
-                System.out.print(squareMatrix[i][j] + " ");
+            printArr(squareMatrix[i]);
             System.out.println();
         }
 
@@ -82,15 +66,9 @@ class FourthTask {
 // 5. ** Задать одномерный массив и найти в нем минимальный и максимальный элементы (без помощи интернета);
 class FifthTask {
     public static void main(String[] args) {
-        Random rand = new Random();
-        int[] arr = new int[rand.nextInt(9) + 1];
-        System.out.print("arr: ");
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = rand.nextInt(10);
-            System.out.print(arr[i] + " ");
-        }
+        int[] arr = generateAndPrintRandomArr();
+        printArr(arr);
         System.out.println("\nmin: " + getArrMin(arr) + ", max: " + getArrMax(arr));
-
     }
 
     private static int getArrMin(int[] arr) {
@@ -115,18 +93,12 @@ class FifthTask {
 // checkBalance([1, 1, 1, || 2, 1]) → true, граница показана символами ||, эти символы в массив не входят.
 class SixthTask {
     public static void main(String[] args) {
-        Random rand = new Random();
-        int[] arr = new int[rand.nextInt(9) + 1];
-        System.out.print("arr: ");
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = rand.nextInt(10);
-            System.out.print(arr[i] + " ");
-        }
+        int[] arr = generateAndPrintRandomArr();
         //int[] arr = {2, 2, 2, 1, 2, 2, 10, 1};
         //int[] arr = {1, 1, 1, 2, 1};
+        System.out.print("arr: ");
+        printArr(arr);
         System.out.println("\nisArrBalanced: " + isArrBalanced(arr));
-
-
     }
 
     private static int getRangeSum(int[] arr, int begin, int end) {
@@ -156,19 +128,12 @@ class SixthTask {
 // [ 3, 5, 6, 1] при n = -2 (на два влево) -> [ 6, 1, 3, 5 ]. При каком n в какую сторону сдвиг можете выбирать сами.
 class SeventhTask {
     public static void main(String[] args) {
-        Random rand = new Random();
-        int[] arr = new int[rand.nextInt(9) + 1];
-        System.out.print("arr: ");
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = rand.nextInt(10);
-            System.out.print(arr[i] + " ");
-        }
-        int n = rand.nextInt(arr.length*2);
+        int[] arr = generateAndPrintRandomArr();
+        int n = new java.util.Random().nextInt(arr.length * 2);
         shiftArr(arr, n);
         System.out.print("\narr shifted by " + n + ": ");
         for (var i : arr)
             System.out.print(i + " ");
-
     }
 
     private static void shiftArr(int[] arr, int n) {

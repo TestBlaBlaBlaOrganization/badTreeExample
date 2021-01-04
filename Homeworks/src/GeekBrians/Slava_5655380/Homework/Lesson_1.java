@@ -1,6 +1,6 @@
-package GeekBrians.Lesson_1.Homework;
+package GeekBrians.Slava_5655380.Homework;
 
-public class Main {
+public class Lesson_1 {
 
     public static void main(String[] args) {
 //        task_1.main(args);
