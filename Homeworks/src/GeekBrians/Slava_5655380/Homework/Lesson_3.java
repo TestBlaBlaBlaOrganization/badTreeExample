@@ -6,19 +6,25 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Lesson_3 {
+    // Сделать подсчет очков
     public static void main(String[] args) {
-        TicTacToeGame game = new TicTacToeGame();
-        game.start();
+        GomokuGame game = new GomokuGame(5, 4);
+        game.play();
+        System.out.println("Игра закончена. Продолжить? (y / n): ");
     }
 }
 
-class TicTacToeGame {
+class GomokuGame {
     private final int SIZE;
+    private char[][] map;
     private static final char DOT_EMPTY = '•';
     private static final char DOT_X = 'X';
     private static final char DOT_O = 'O';
+    private final int DOTS_TO_WIN;
     private Scanner sc = new Scanner(System.in);
     private Random rand = new Random();
+    private Vector2Struct lastTurn = new Vector2Struct();
+    private int freeCellsCount;
 
     private void initMap() {
         map = new char[SIZE][SIZE];
@@ -31,23 +37,29 @@ class TicTacToeGame {
 
     // передалть добавив более продвинутую логику
     private void aiTurn() {
-        int x, y;
+        int column, row;
         do {
-            x = rand.nextInt(SIZE);
-            y = rand.nextInt(SIZE);
-        } while (!isCellValid(x, y));
-        System.out.println("Компьютер походил в точку " + (x + 1) + " " + (y + 1));
-        map[y][x] = DOT_O;
+            column = rand.nextInt(SIZE);
+            row = rand.nextInt(SIZE);
+        } while (!isCellValid(column, row));
+        System.out.println("Программа сделала ход в точку " + (column + 1) + " " + (row + 1));
+        map[row][column] = DOT_O;
+        freeCellsCount--;
+        lastTurn.x = column;
+        lastTurn.y = row;
     }
 
     private void humanTurn() {
-        int x, y;
+        int column, row;
         do {
             System.out.println("Введите координаты в формате X Y");
-            x = sc.nextInt() - 1;
-            y = sc.nextInt() - 1;
-        } while (!isCellValid(x, y)); // while(isCellValid(x, y) == false)
-        map[y][x] = DOT_X;
+            column = sc.nextInt() - 1;
+            row = sc.nextInt() - 1;
+        } while (!isCellValid(column, row));
+        map[row][column] = DOT_X;
+        freeCellsCount--;
+        lastTurn.x = column;
+        lastTurn.y = row;
     }
 
     private boolean isCellValid(int x, int y) {
@@ -56,66 +68,142 @@ class TicTacToeGame {
         return false;
     }
 
-    // переделать сделав так чтобы SIZE мог быть произвольным
+    // ЗАДАНИЯ 2 и 3:
+    // 2. Переделать проверку победы, чтобы она не была реализована просто набором условий.
+    // 3. Попробовать переписать логику проверки победы, чтобы она работала для поля 5х5 и количества фишек 4 в линию.
     private boolean checkWin(char symb) {
-        if(map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) return true;
-        if(map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) return true;
-        if (map[2][0] == symb && map[2][1] == symb && map[2][2] == symb) return true;
-        if (map[0][0] == symb && map[1][0] == symb && map[2][0] == symb) return true;
-        if (map[0][1] == symb && map[1][1] == symb && map[2][1] == symb) return true;
-        if (map[0][2] == symb && map[1][2] == symb && map[2][2] == symb) return true;
-        if (map[0][0] == symb && map[1][1] == symb && map[2][2] == symb) return true;
-        if (map[2][0] == symb && map[1][1] == symb && map[0][2] == symb) return true;
+        // Возращается true если в последнем ходе образовывается горизонтальная линия состоящая из символов symb
+        int lineLength = 0;
+        // Обход вправо по линии
+        for (int column = lastTurn.x; column < SIZE; column++, lineLength++) {
+            if (map[lastTurn.y][column] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Обход влево по линии
+        for (int column = lastTurn.x; column >= 0; column--, lineLength++) {
+            if (map[lastTurn.y][column] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Возращается true если в последнем ходе образовывается вертикальная линия состоящая из символов symb
+        lineLength = 0;
+        // Обход вниз по линии
+        for (int row = lastTurn.y; row < SIZE; row++, lineLength++) {
+            if (map[row][lastTurn.x] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Обход вверх по линии
+        for (int row = lastTurn.y; row >= 0; row--, lineLength++) {
+            if (map[row][lastTurn.x] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Возращается true если в последнем ходе образовывается диоганальная линия похожая на \ и состоящая из символов symb
+        lineLength = 0;
+        // Обход вниз по линии
+        for (int column = lastTurn.x, row = lastTurn.y; column < SIZE && row < SIZE; column++, row++, lineLength++) {
+            if (map[row][column] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Обходв вверх по линии
+        for (int column = lastTurn.x, row = lastTurn.y; column >= 0 && row >= 0; column--, row--, lineLength++) {
+            if (map[row][column] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Возращается true если в последнем ходе образовывается диоганальная линия похожая на / и состоящая из символов symb
+        lineLength = 0;
+        // Обход вниз по линии
+        for (int column = lastTurn.x, row = lastTurn.y; column >= 0 && row < SIZE; column--, row++, lineLength++) {
+            if (map[row][column] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+        // Обходв вверх по линии
+        for (int column = lastTurn.x, row = lastTurn.y; column < SIZE && row >= 0; column++, row--, lineLength++) {
+            if (map[row][column] != symb)
+                break;
+            if (lineLength == DOTS_TO_WIN)
+                return true;
+        }
+
         return false;
     }
-    // переделать сделав так чтобы проверялся счетчик оставшихся клеток
-    private boolean isMapFull() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                if (map[i][j] == DOT_EMPTY) return false;
-            }
+
+    private boolean isGameOver() {
+        if (checkWin((isUserFirst) ? DOT_X : DOT_O)) {
+            System.out.println("Победил человек");
+            return true;
         }
-        return true;
+        if (checkWin((isUserFirst) ? DOT_O : DOT_X)) {
+            System.out.println("Победила программа");
+            return true;
+        }
+        if (freeCellsCount == 0) {
+            System.out.println("Ничья");
+            return true;
+        }
+        return false;
     }
-    public char[][] map;
 
-    TicTacToeGame() {
-        this(3);
+    private class Vector2Struct {
+        public int x;
+        public int y;
+
+        Vector2Struct() {
+            x = 0;
+            y = 0;
+        }
+
+        Vector2Struct(int u, int v) {
+            x = u;
+            y = v;
+        }
     }
 
-    TicTacToeGame(int size) {
+    public boolean isUserFirst = true;
+
+    GomokuGame() {
+        this(3, 3);
+    }
+
+    GomokuGame(int size, int dotsToWin) {
         SIZE = size;
+        DOTS_TO_WIN = dotsToWin;
         initMap();
-
+        freeCellsCount = SIZE * SIZE;
     }
 
-    public void start() {
-        printArr(map);
+    public boolean play() {
+        if (isUserFirst)
+            printArr(map);
         while (true) {
-            humanTurn();
+            if (isUserFirst) humanTurn();
+            else aiTurn();
             printArr(map);
-            if (checkWin(DOT_X)) {
-                System.out.println("Победил человек");
-                break;
-            }
-            if (isMapFull()) {
-                System.out.println("Ничья");
-                break;
-            }
-            aiTurn();
+            if (isGameOver())
+                return true;
+
+            if (isUserFirst) aiTurn();
+            else humanTurn();
             printArr(map);
-            if (checkWin(DOT_O)) {
-                System.out.println("Победил Искуственный Интеллект");
-                break;
-            }
-            if (isMapFull()) {
-                System.out.println("Ничья");
-                break;
-            }
+            if (isGameOver())
+                return false;
         }
-        System.out.println("Игра закончена");
     }
 
 }
+
+
 
 
