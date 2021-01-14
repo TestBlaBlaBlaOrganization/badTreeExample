@@ -6,11 +6,10 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Lesson_3 {
-    // Сделать подсчет очков
     public static void main(String[] args) {
         GomokuGame game = new GomokuGame(5, 4);
         game.play();
-        System.out.println("Игра закончена. Продолжить? (y / n): ");
+        System.out.println("Игра закончена.");
     }
 }
 
