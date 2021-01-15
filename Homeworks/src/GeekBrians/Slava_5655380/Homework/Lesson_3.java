@@ -22,8 +22,7 @@ class GomokuGame {
     private final int DOTS_TO_WIN;
     private Scanner sc = new Scanner(System.in);
     private Random rand = new Random();
-    private Vector2Struct humanLastTurn = new Vector2Struct(); // p1LastTurn
-    private Vector2Struct aiLastTurn = new Vector2Struct(); // p2LastTurn
+    private Vector2Struct lastTurn = new Vector2Struct();
     private int freeCellsCount;
 
     private void initMap() {
@@ -36,27 +35,44 @@ class GomokuGame {
     }
 
     // 4. *** Доработать искусственный интеллект, чтобы он мог блокировать ходы игрока, и пытаться выиграть сам.
-    private void makeTurn(char symb, int column, int row){
+    private void makeTurn(char symb, int column, int row) {
         map[row][column] = symb;
         freeCellsCount--;
-        humanLastTurn.x = column;
-        humanLastTurn.y = row;
+        lastTurn.x = column;
+        lastTurn.y = row;
     }
+
     private void aiTurn() {
-        int column, row;
         // Пробует заблокировать выигрышный ход игрока
         for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++)
-                if (checkWin((isUserFirst) ? DOT_X : DOT_O, j, i)) {
-                    column = j;
-                    row = i;
-                    System.out.println("Программа сделала ход в точку " + (column + 1) + " " + (row + 1));
-                    makeTurn((isUserFirst) ? DOT_O : DOT_X, column, row);
-                    return;
+            for (int j = 0; j < SIZE; j++) {
+                if(map[i][j] == DOT_EMPTY)
+                {
+                    map[i][j] = (isUserFirst) ? DOT_X : DOT_O;
+                    if (checkWin((isUserFirst) ? DOT_X : DOT_O, j, i)) {
+                        System.out.println("Программа сделала ход в точку " + (j + 1) + " " + (i + 1));
+                        makeTurn((isUserFirst) ? DOT_O : DOT_X, j, i);
+                        return;
+                    }
+                    map[i][j] = DOT_EMPTY;
                 }
+            }
         // Иначе пробует найти выигрышный ход
-        // ...
+        for(int i = 0; i < SIZE; i++)
+            for(int j = 0; j < SIZE; j++)
+            {
+                if(map[i][j] == DOT_EMPTY){
+                    map[i][j] = (isUserFirst) ? DOT_O : DOT_X;
+                    if (checkWin((isUserFirst) ? DOT_O : DOT_X, j, i)){
+                        System.out.println("Программа сделала ход в точку " + (j + 1) + " " + (i + 1));
+                        makeTurn((isUserFirst) ? DOT_O : DOT_X, j, i);
+                        return;
+                    }
+                    map[i][j] = DOT_EMPTY;
+                }
+            }
         // Иначе делает случайный ход
+        int column, row;
         do {
             column = rand.nextInt(SIZE);
             row = rand.nextInt(SIZE);
@@ -86,74 +102,74 @@ class GomokuGame {
     // 2. Переделать проверку победы, чтобы она не была реализована просто набором условий.
     // 3. Попробовать переписать логику проверки победы, чтобы она работала для поля 5х5 и количества фишек 4 в линию.
     private boolean checkWin(char symb) {
-        return checkWin(symb, humanLastTurn.x, humanLastTurn.y);
+        return checkWin(symb, lastTurn.x, lastTurn.y);
     }
 
     private boolean checkWin(char symb, int x, int y) {
         // Возращается true если в последнем ходе образовывается горизонтальная линия состоящая из символов symb
         int lineLength = 0;
         // Обход вправо по линии
-        for (int column = x + 1; column < SIZE; column++, lineLength++) {
+        for (int column = x; column < SIZE; column++, lineLength++) {
             if (map[y][column] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Обход влево по линии
-        for (int column = x - 1; column >= 0; column--, lineLength++) {
+        for (int column = x; column >= 0; column--, lineLength++) {
             if (map[y][column] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Возращается true если в последнем ходе образовывается вертикальная линия состоящая из символов symb
         lineLength = 0;
         // Обход вниз по линии
-        for (int row = y + 1; row < SIZE; row++, lineLength++) {
+        for (int row = y; row < SIZE; row++, lineLength++) {
             if (map[row][x] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Обход вверх по линии
-        for (int row = y - 1; row >= 0; row--, lineLength++) {
+        for (int row = y; row >= 0; row--, lineLength++) {
             if (map[row][x] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Возращается true если в последнем ходе образовывается диоганальная линия похожая на \ и состоящая из символов symb
         lineLength = 0;
         // Обход вниз по линии
-        for (int column = x + 1, row = y + 1; column < SIZE && row < SIZE; column++, row++, lineLength++) {
+        for (int column = x, row = y; column < SIZE && row < SIZE; column++, row++, lineLength++) {
             if (map[row][column] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Обходв вверх по линии
-       // System.out.println("CALL");
-        for (int column = x - 1, row = y - 1; column >= 0 && row >= 0; column--, row--, lineLength++) {
+        // System.out.println("CALL");
+        for (int column = x, row = y; column >= 0 && row >= 0; column--, row--, lineLength++) {
             //System.out.println("PING: " + column + " " + row);
             if (map[row][column] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Возращается true если в последнем ходе образовывается диоганальная линия похожая на / и состоящая из символов symb
         lineLength = 0;
         // Обход вниз по линии
-        for (int column = x - 1, row = y + 1; column >= 0 && row < SIZE; column--, row++, lineLength++) {
+        for (int column = x, row = y; column >= 0 && row < SIZE; column--, row++, lineLength++) {
             if (map[row][column] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
         // Обходв вверх по линии
-        for (int column = x + 1, row = y - 1; column < SIZE && row >= 0; column++, row--, lineLength++) {
+        for (int column = x, row = y; column < SIZE && row >= 0; column++, row--, lineLength++) {
             if (map[row][column] != symb)
                 break;
-            if (lineLength == DOTS_TO_WIN - 2)
+            if (lineLength == DOTS_TO_WIN)
                 return true;
         }
 
