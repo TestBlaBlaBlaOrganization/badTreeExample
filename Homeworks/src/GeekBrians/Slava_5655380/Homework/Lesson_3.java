@@ -7,10 +7,48 @@ import java.util.Scanner;
 
 public class Lesson_3 {
     public static void main(String[] args) {
+        tasksFromFirstToFourth();
+        System.out.println("-------------------------");
+        taskFive();
+    }
+
+    public static void tasksFromFirstToFourth() {
         GomokuGame game = new GomokuGame(5, 4);
         game.play();
         System.out.println("Игра закончена.");
     }
+
+    // 5. *По желанию! Написать метод, который принимает на вход 2 целых числа, например, x и y.
+    // Внутри метода создаётся целочисленный двумерный массив со сторонами х и у.
+    // Потом этот массив заполняется последовательно инкрементируемыми числами по спирали (или змейкой).
+    // То есть, в позиции [0,0] будет 1, в [0,1] 2 и так далее.
+    // Потом по достижении правой границы направление заполнения меняется на вертикальное и так далее.
+    // Так, что последний заполненный элемент будет посередине массива.
+    public static void taskFive() {
+        System.out.println("Введите значения X и Y для задания 5");
+        Scanner scanner = new Scanner(System.in);
+        final int X = scanner.nextInt(),
+                Y = scanner.nextInt();
+        int[][] matrix = new int[Y][X];
+        for (int i = 1, bound = 0, column = 0, row = 0; i <=   X * Y; i++) {
+            matrix[row][column] = i;
+            if (column < X - bound - 1 && row == bound)
+                column++;
+            else if (column == X - bound - 1 && row < Y - bound - 1)
+                row++;
+            else if (row == Y - bound - 1 && column > bound)
+                column--;
+            else if (column == bound && row > bound + 1)
+                row--;
+            else {
+                bound++;
+                column++;
+            }
+        }
+        printArr(matrix);
+
+    }
+
 }
 
 class GomokuGame {
@@ -22,7 +60,7 @@ class GomokuGame {
     private final int DOTS_TO_WIN;
     private Scanner sc = new Scanner(System.in);
     private Random rand = new Random();
-    private Vector2Struct lastTurn = new Vector2Struct();
+    private Vector2i lastTurn = new Vector2i();
     private int freeCellsCount;
 
     private void initMap() {
@@ -46,8 +84,7 @@ class GomokuGame {
         // Пробует заблокировать выигрышный ход игрока
         for (int i = 0; i < SIZE; i++)
             for (int j = 0; j < SIZE; j++) {
-                if(map[i][j] == DOT_EMPTY)
-                {
+                if (map[i][j] == DOT_EMPTY) {
                     map[i][j] = (isUserFirst) ? DOT_X : DOT_O;
                     if (checkWin((isUserFirst) ? DOT_X : DOT_O, j, i)) {
                         System.out.println("Программа сделала ход в точку " + (j + 1) + " " + (i + 1));
@@ -58,12 +95,11 @@ class GomokuGame {
                 }
             }
         // Иначе пробует найти выигрышный ход
-        for(int i = 0; i < SIZE; i++)
-            for(int j = 0; j < SIZE; j++)
-            {
-                if(map[i][j] == DOT_EMPTY){
+        for (int i = 0; i < SIZE; i++)
+            for (int j = 0; j < SIZE; j++) {
+                if (map[i][j] == DOT_EMPTY) {
                     map[i][j] = (isUserFirst) ? DOT_O : DOT_X;
-                    if (checkWin((isUserFirst) ? DOT_O : DOT_X, j, i)){
+                    if (checkWin((isUserFirst) ? DOT_O : DOT_X, j, i)) {
                         System.out.println("Программа сделала ход в точку " + (j + 1) + " " + (i + 1));
                         makeTurn((isUserFirst) ? DOT_O : DOT_X, j, i);
                         return;
@@ -148,9 +184,7 @@ class GomokuGame {
                 return true;
         }
         // Обходв вверх по линии
-        // System.out.println("CALL");
         for (int column = x, row = y; column >= 0 && row >= 0; column--, row--, lineLength++) {
-            //System.out.println("PING: " + column + " " + row);
             if (map[row][column] != symb)
                 break;
             if (lineLength == DOTS_TO_WIN)
@@ -190,21 +224,6 @@ class GomokuGame {
             return true;
         }
         return false;
-    }
-
-    private class Vector2Struct {
-        public int x;
-        public int y;
-
-        Vector2Struct() {
-            x = 0;
-            y = 0;
-        }
-
-        Vector2Struct(int u, int v) {
-            x = u;
-            y = v;
-        }
     }
 
     public boolean isUserFirst = true;

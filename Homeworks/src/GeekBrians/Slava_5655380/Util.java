@@ -21,7 +21,22 @@ public class Util {
         return arr;
     }
 
+     public static class Vector2i {
+        public int x;
+        public int y;
 
+        // Я правильно понимаю, чтобы создать экземпляр импортируемого класса его конструктор должен быть public,
+        // а инае получается default и экземпляры можно создавать только в пределах пакета?
+        public Vector2i() {
+            x = 0;
+            y = 0;
+        }
+
+        public Vector2i(int u, int v) {
+            x = u;
+            y = v;
+        }
+    }
     // Сделать так чтобы аргументом printArr мог быть массив Object произвольной глубины
     // Спросить почему не работает конвертирование int[] в Object[] и Object в Object[]?
     public static void printArr(int[] arr) {
@@ -31,7 +46,15 @@ public class Util {
 
     public static void printArr(char[][] arr) {
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++)
+            for (int j = 0; j < arr[i].length; j++)
+                System.out.print(arr[i][j] + " ");
+            System.out.println();
+        }
+    }
+
+    public static void printArr(int[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++)
                 System.out.print(arr[i][j] + " ");
             System.out.println();
         }
