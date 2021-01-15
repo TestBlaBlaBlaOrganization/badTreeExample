@@ -18,7 +18,7 @@ public class Lesson_3 {
         System.out.println("Игра закончена.");
     }
 
-    // 5. *По желанию! Написать метод, который принимает на вход 2 целых числа, например, x и y.
+    // ЗАДАНИЕ 5. *По желанию! Написать метод, который принимает на вход 2 целых числа, например, x и y.
     // Внутри метода создаётся целочисленный двумерный массив со сторонами х и у.
     // Потом этот массив заполняется последовательно инкрементируемыми числами по спирали (или змейкой).
     // То есть, в позиции [0,0] будет 1, в [0,1] 2 и так далее.
@@ -30,7 +30,7 @@ public class Lesson_3 {
         final int X = scanner.nextInt(),
                 Y = scanner.nextInt();
         int[][] matrix = new int[Y][X];
-        for (int i = 1, bound = 0, column = 0, row = 0; i <=   X * Y; i++) {
+        for (int i = 1, bound = 0, column = 0, row = 0; i <= X * Y; i++) {
             matrix[row][column] = i;
             if (column < X - bound - 1 && row == bound)
                 column++;
@@ -46,9 +46,7 @@ public class Lesson_3 {
             }
         }
         printArr(matrix);
-
     }
-
 }
 
 class GomokuGame {
@@ -72,7 +70,6 @@ class GomokuGame {
         }
     }
 
-    // 4. *** Доработать искусственный интеллект, чтобы он мог блокировать ходы игрока, и пытаться выиграть сам.
     private void makeTurn(char symb, int column, int row) {
         map[row][column] = symb;
         freeCellsCount--;
@@ -80,6 +77,7 @@ class GomokuGame {
         lastTurn.y = row;
     }
 
+    // ЗАДАНИЕ 4. *** Доработать искусственный интеллект, чтобы он мог блокировать ходы игрока, и пытаться выиграть сам.
     private void aiTurn() {
         // Пробует заблокировать выигрышный ход игрока
         for (int i = 0; i < SIZE; i++)
@@ -115,7 +113,6 @@ class GomokuGame {
         } while (!isCellValid(column, row));
         System.out.println("Программа сделала ход в точку " + (column + 1) + " " + (row + 1));
         makeTurn((isUserFirst) ? DOT_O : DOT_X, column, row);
-
     }
 
     private void humanTurn() {
@@ -134,9 +131,8 @@ class GomokuGame {
         return false;
     }
 
-    // ЗАДАНИЯ 2 и 3:
-    // 2. Переделать проверку победы, чтобы она не была реализована просто набором условий.
-    // 3. Попробовать переписать логику проверки победы, чтобы она работала для поля 5х5 и количества фишек 4 в линию.
+    // ЗАДАНИЕ 2. Переделать проверку победы, чтобы она не была реализована просто набором условий.
+    // ЗАДАНИЕ 3. Попробовать переписать логику проверки победы, чтобы она работала для поля 5х5 и количества фишек 4 в линию.
     private boolean checkWin(char symb) {
         return checkWin(symb, lastTurn.x, lastTurn.y);
     }
@@ -256,9 +252,4 @@ class GomokuGame {
                 return false;
         }
     }
-
 }
-
-
-
-
