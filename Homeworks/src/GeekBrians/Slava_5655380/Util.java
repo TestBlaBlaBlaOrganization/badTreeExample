@@ -21,7 +21,7 @@ public class Util {
         return arr;
     }
 
-     public static class Vector2i {
+    public static class Vector2i {
         public int x;
         public int y;
 
@@ -37,6 +37,7 @@ public class Util {
             y = v;
         }
     }
+
     // Сделать так чтобы аргументом printArr мог быть массив Object произвольной глубины
     // Спросить почему не работает конвертирование int[] в Object[] и Object в Object[]?
     public static void printArr(int[] arr) {
@@ -58,6 +59,11 @@ public class Util {
                 System.out.print(arr[i][j] + " ");
             System.out.println();
         }
+    }
+
+    public static String getClassShortName(Object obj) {
+        String[] classFullName = obj.getClass().toString().split("\\.");
+        return classFullName[classFullName.length - 1];
     }
 
 }
