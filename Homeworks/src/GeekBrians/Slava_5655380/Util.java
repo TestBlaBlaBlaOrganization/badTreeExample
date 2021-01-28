@@ -61,10 +61,23 @@ public class Util {
         }
     }
 
+    public static void printArr(String[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++)
+                System.out.print(arr[i][j] + " ");
+            System.out.println();
+        }
+    }
+
+    public static void deepFill(Object arr[]){
+        // ...
+    }
+
     public static String getClassShortName(Object obj) {
         String[] classFullName = obj.getClass().toString().split("\\.");
         return classFullName[classFullName.length - 1];
     }
+
 
 }
 
