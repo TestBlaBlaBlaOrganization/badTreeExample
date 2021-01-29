@@ -25,16 +25,38 @@ public class Util {
         public int x;
         public int y;
 
-        // Я правильно понимаю, чтобы создать экземпляр импортируемого класса его конструктор должен быть public,
-        // а инае получается default и экземпляры можно создавать только в пределах пакета?
         public Vector2i() {
             x = 0;
             y = 0;
         }
 
-        public Vector2i(int u, int v) {
-            x = u;
-            y = v;
+        public Vector2i(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + x + ", " + y + ")";
+        }
+    }
+
+    public static class Vector3i extends Vector2i {
+        public int z;
+
+        public Vector3i() {
+            super();
+            this.z = 0;
+        }
+
+        public Vector3i(int x, int y, int z) {
+            super(x, y);
+            this.z = z;
+        }
+
+        @Override
+        public String toString() {
+            return "(" + x + ", " + y + ", " + z + ")";
         }
     }
 
@@ -61,16 +83,17 @@ public class Util {
         }
     }
 
+    public static void printArr(String[] arr) {
+        for (int i = 0; i < arr.length; i++)
+            System.out.print(arr[i] + " ");
+    }
+
     public static void printArr(String[][] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length; j++)
                 System.out.print(arr[i][j] + " ");
             System.out.println();
         }
-    }
-
-    public static void deepFill(Object arr[]){
-        // ...
     }
 
     public static String getClassShortName(Object obj) {
