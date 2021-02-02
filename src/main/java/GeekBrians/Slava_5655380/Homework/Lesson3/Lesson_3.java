@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.Homework;
+package GeekBrians.Slava_5655380.Homework.Lesson3;
 
 import static GeekBrians.Slava_5655380.Util.*;
 
@@ -45,7 +45,7 @@ public class Lesson_3 {
                 column++;
             }
         }
-        printArr(matrix);
+        deepPrint(matrix);
     }
 }
 
@@ -237,17 +237,17 @@ class GomokuGame {
 
     public boolean play() {
         if (isUserFirst)
-            printArr(map);
+            deepPrint(map);
         while (true) {
             if (isUserFirst) humanTurn();
             else aiTurn();
-            printArr(map);
+            deepPrint(map);
             if (isGameOver())
                 return true;
 
             if (isUserFirst) aiTurn();
             else humanTurn();
-            printArr(map);
+            deepPrint(map);
             if (isGameOver())
                 return false;
         }

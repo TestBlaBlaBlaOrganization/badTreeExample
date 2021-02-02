@@ -13,9 +13,9 @@ public class FileManager {
     }
 
     private static void task2() throws IOException {
-        String firstHalfPath = "Homeworks/src/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/firstHalf.txt",
-                secondHalfPath = "Homeworks/src/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/secondHalf.txt",
-                unitedFilePath = "Homeworks/src/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/unitedFile.txt";
+        String firstHalfPath = "src/main/java/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/firstHalf.txt",
+                secondHalfPath = "src/main/java/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/secondHalf.txt",
+                unitedFilePath = "src/main/java/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/unitedFile.txt";
         // ЗАДАНИЕ 1. Создать 2 текстовых файла, примерно по 50-100 символов в каждом(особого значения не имеет);
         fillFileWithNumbers(firstHalfPath, 50, 1);
         fillFileWithNumbers(secondHalfPath, 100, 51);
@@ -28,7 +28,7 @@ public class FileManager {
         System.out.println("\nЗАДАНИЕ 3");
         String word = "Lorem";
         // ЗАДАНИЕ 3.* Написать метод, который проверяет присутствует ли указанное пользователем слово в файле (работаем только с латиницей).
-        Vector3i wordIndex = findWord(new File("Homeworks/src/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/FishTextA.txt"), word);
+        Vector3i wordIndex = findWord(new File("src/main/java/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting/FishTextA.txt"), word);
         if (wordIndex.x == -1) {
             System.out.println("Слово \"" + word + "\" не найдено");
             return;
@@ -42,9 +42,9 @@ public class FileManager {
         String word = "laboris";
         StringBuilder matchFilePathBuff = new StringBuilder();
         // ЗАДАНИЕ 4.** Написать метод, проверяющий, есть ли указанное слово в папке
-        Vector3i wordIndex = findWord(new File("Homeworks/src/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting"), word, matchFilePathBuff);
+        Vector3i wordIndex = findWord(new File("src/main/java/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting"), word, matchFilePathBuff);
         if (wordIndex.x == -1) {
-            System.out.println("Слово \"" + word + "\" отсутстует в Homeworks/src/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting");
+            System.out.println("Слово \"" + word + "\" отсутстует в src/main/java/GeekBrians/Slava_5655380/Homework/Lesson8/filesForTesting");
             return;
         }
         System.out.println("Слово \"laboris\" найдено в " + matchFilePathBuff);

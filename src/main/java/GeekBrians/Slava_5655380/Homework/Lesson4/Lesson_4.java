@@ -1,6 +1,4 @@
-package GeekBrians.Slava_5655380.Homework;
-
-import java.math.BigInteger;
+package GeekBrians.Slava_5655380.Homework.Lesson4;
 
 public class Lesson_4 {
     public static void main(String[] args) {

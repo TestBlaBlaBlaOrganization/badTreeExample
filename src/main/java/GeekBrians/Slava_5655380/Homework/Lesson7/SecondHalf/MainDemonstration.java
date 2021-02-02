@@ -1,9 +1,9 @@
 package GeekBrians.Slava_5655380.Homework.Lesson7.SecondHalf;
 
+import static GeekBrians.Slava_5655380.Util.*;
+
 import java.util.Arrays;
 import java.util.Random;
-
-import static GeekBrians.Slava_5655380.Util.*;
 
 public class MainDemonstration {
     public static void main(String[] args) {
@@ -51,7 +51,7 @@ public class MainDemonstration {
         for (String[] str : myArray)
             Arrays.fill(str, Integer.toString(rand.nextInt(10)));
         System.out.println("myArray");
-        printArr(myArray);
+        deepPrint(myArray);
         return myArray;
     }
 
@@ -61,7 +61,7 @@ public class MainDemonstration {
         for (String[] str : myArray)
             Arrays.fill(str, Integer.toString(rand.nextInt(10)));
         System.out.println("myArray");
-        printArr(myArray);
+        deepPrint(myArray);
         return myArray;
     }
 
@@ -73,7 +73,7 @@ public class MainDemonstration {
         myArray[2][2] = "з";
         myArray[2][3] = "o";
         System.out.println("myArray");
-        printArr(myArray);
+        deepPrint(myArray);
         return myArray;
     }
 
