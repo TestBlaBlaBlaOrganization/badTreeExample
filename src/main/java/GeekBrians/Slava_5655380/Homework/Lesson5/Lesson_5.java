@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.Homework;
+package GeekBrians.Slava_5655380.Homework.Lesson5;
 
 public class Lesson_5 {
     public static void main(String[] args) {

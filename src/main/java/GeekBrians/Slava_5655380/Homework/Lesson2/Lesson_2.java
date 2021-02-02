@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.Homework;
+package GeekBrians.Slava_5655380.Homework.Lesson2;
 
 import static GeekBrians.Slava_5655380.Util.*;
 
@@ -21,7 +21,7 @@ class FirstTask {
         int[] intArr = {1, 1, 0, 0, 1, 0, 1, 1, 0, 0};
         for (int i = 0; i < intArr.length; i++)
             intArr[i] = (intArr[i] == 0) ? 1 : 0;
-        printArr(intArr);
+        deepPrint(intArr);
     }
 }
 
@@ -31,7 +31,7 @@ class SecondTask {
         int[] intArr = new int[8];
         for (int i = 0; i < intArr.length; i++)
             intArr[i] = i * 3;
-        printArr(intArr);
+        deepPrint(intArr);
     }
 }
 
@@ -42,7 +42,7 @@ class ThirdTask {
         for (int i = 0; i < arr.length; i++)
             if (arr[i] < 6)
                 arr[i] = arr[i] * 2;
-        printArr(arr);
+        deepPrint(arr);
     }
 }
 
@@ -55,11 +55,7 @@ class FourthTask {
             squareMatrix[i][j] = 1;
         for (int i = 0, j = squareMatrix[i].length - 1; i < squareMatrix.length && j >= 0; i++, j--)
             squareMatrix[i][j] = 1;
-        for (int i = 0; i < squareMatrix.length; i++) {
-            printArr(squareMatrix[i]);
-            System.out.println();
-        }
-
+        deepPrint(squareMatrix);
     }
 }
 
@@ -67,7 +63,7 @@ class FourthTask {
 class FifthTask {
     public static void main(String[] args) {
         int[] arr = generateAndPrintRandomArr();
-        printArr(arr);
+        deepPrint(arr);
         System.out.println("\nmin: " + getArrMin(arr) + ", max: " + getArrMax(arr));
     }
 
@@ -97,7 +93,7 @@ class SixthTask {
         //int[] arr = {2, 2, 2, 1, 2, 2, 10, 1};
         //int[] arr = {1, 1, 1, 2, 1};
         System.out.print("arr: ");
-        printArr(arr);
+        deepPrint(arr);
         System.out.println("\nisArrBalanced: " + isArrBalanced(arr));
     }
 

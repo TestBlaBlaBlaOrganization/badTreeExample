@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.Homework;
+package GeekBrians.Slava_5655380.Homework.Lesson1;
 
 public class Lesson_1 {
 
